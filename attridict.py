@@ -3,7 +3,9 @@ import sys
 class AttriDict(dict):
 
 	def __init__(self, data = {}):
+		# print("__init__")
 		super().__init__(data)
+
 		attridicts = []
 
 
@@ -25,6 +27,10 @@ class AttriDict(dict):
 
 
 	def __call__(self, data = {}):
+		# print("__call__\n")
+		print("self", self)
+
+		self = AttriDict(data)
 		# print("bbb")
 
 		wanna = self.type_verification(data)
