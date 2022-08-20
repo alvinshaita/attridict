@@ -4,7 +4,8 @@ class AttriDict(dict):
 
 	def __init__(self, data = {}):
 		# print("__init__")
-		super().__init__(data)
+		# super().__init__(data)
+		super(AttriDict, self).__init__(data)
 
 		attridicts = []
 
@@ -28,8 +29,10 @@ class AttriDict(dict):
 
 	def __call__(self, data = {}):
 		# print("__call__\n")
-		print("self", self)
+		# print("self", self)
 
+		# print(AttriDict)
+		# print(dir(self))
 		self = AttriDict(data)
 		# print("bbb")
 
