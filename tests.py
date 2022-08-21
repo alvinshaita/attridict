@@ -41,9 +41,9 @@ assert(att == {"one": 111, "two": 222, "three": {"four": 444, "five": 555}})
 
 del att
 
+
+# __dir__
 # #############################################
-
-
 data = {"one": 111, "two": {"three": 333, "four": {"five": 555, "six": 666}}}
 att = attridict(data)
 assert(all(i in att.__dir__() for i in ["one", "two"]))
@@ -69,43 +69,76 @@ att.three = {"four": 444, "five": 565}
 
 del att
 
-
+#############################################################################
 
 
 data = {"one": 111, "two": {"three": 333, "four": {"five": 555, "six": 666}}}
 att = attridict(data)
 
-assert(len(data) == len(att))
-assert(len(data["two"]) == len(att.two))
-assert(len(data["two"]["four"]) == len(att.two.four))
+assert(data.__len__() == att.__len__())
+assert(data["two"].__len__() == att.two.__len__())
+assert(data["two"]["four"].__len__() == att.two.four.__len__())
 
 del att
 #############################################################################
 
-print("Test End!!")
+
 
 ##########################################################################################################
 ##########################################################################################################
 
 
-
-
-# keys
 data = {"one": 111, "two": {"three": 333, "four": {"five": 555, "six": 666}}}
 att = attridict(data)
-assert(list(att.keys()) == ["one", "two"])
-assert(list(att.two.keys()) == ["three", "four"])
-assert(list(att.two.four.keys()) == ["five", "six"])
+assert(att == data)
 
-# values
+del att
+
+#######################################
+
 data = {"one": 111, "two": {"three": 333, "four": {"five": 555, "six": 666}}}
 att = attridict(data)
-assert(list(att.values()) == [111, {"three": 333, "four": {"five": 555, "six": 666}}])
-assert(list(att.two.values()) == [333, {"five": 555, "six": 666}])
-assert(list(att.two.four.values()) == [555, 666])
+att_mutable = att
+att.two = 222
+assert(att == att_mutable)
+
+del att
+
+#######################################
+
+data = {"one": 111, "two": {"three": 333, "four": {"five": 555, "six": 666}}}
+att = attridict(data)
+att_copy = att.copy()
+att.two = 222
+assert(att != att_copy)
+assert(att_copy == data)
+
+del att
+#######################################
+
+data = {"one": 111, "two": {"three": 333, "four": {"five": 555, "six": 666}}}
+att = attridict(data)
+
+att_dict = att.to_dict()
+assert(type(att_dict) == dict)
+assert(type(att_dict["two"]) == dict)
+assert(type(att_dict["two"]["four"]) == dict)
+
+del att_dict
+
+#######################################
 
 
+data = {"one": 111, "two": {"three": 333, "four": {"five": 555, "six": 666}}}
+att = attridict(data)
 
-print(att.items())
+del att.two.four.six
+assert(att == {"one": 111, "two": {"three": 333, "four": {"five": 555}}})
+
+del att
+
 
 #####################################################
+
+
+print("Test End!!")
