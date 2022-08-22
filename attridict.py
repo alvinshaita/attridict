@@ -44,28 +44,28 @@ class AttriDict(dict):
 	def __contains__(self):
 		return self.__dict__.__contains__(key)
 
-	def __reduce__(self):
-		return self.__dict__.__reduce__()
-
 	def __dir__(self):
 		return dir(self.__class__) + list(self.__dict__.keys())
 
 	def __eq__(self, other):
 		return self.__dict__.__eq__(other)
 
-	def __ne__(self, other):
-		return self.__dict__.__ne__(other)
+	def __iter__(self):
+		return len(self.__dict__.keys())
 
 	def __len__(self):
 		return len(self.__dict__.keys())
 
-	def __iter__(self):
-		return len(self.__dict__.keys())
+	def __ne__(self, other):
+		return self.__dict__.__ne__(other)
 
-	def __str__(self):
-		return str(self.__dict__)
+	def __reduce__(self):
+		return self.__dict__.__reduce__()
 
 	def __repr__(self):
+		return str(self.__dict__)
+
+	def __str__(self):
 		return str(self.__dict__)
 
 
@@ -119,23 +119,24 @@ class AttriDict(dict):
 
 
 	'''Typical stuff'''
-	def keys(self):
-		return self.__dict__.keys()
-
-	def values(self):
-		return self.__dict__.values()
-
-	def get(self, key, default = None):
-		return self.__dict__.get(key, default)
-
-	def pop(self, key, value = None):
-		return self.__dict__.pop(key, value)
 
 	def copy(self):
 		return self.__class__(self)
 
-	def setdefault(self, key, default=None):
-		return self.__dict__.setdefault(key, default)
+	def get(self, key, default = None):
+		return self.__dict__.get(key, default)
 
 	def items(self, *args, **kwargs):
 		return self.__dict__.items(*args, **kwargs)
+
+	def keys(self):
+		return self.__dict__.keys()
+
+	def pop(self, key, value = None):
+		return self.__dict__.pop(key, value)
+
+	def setdefault(self, key, default=None):
+		return self.__dict__.setdefault(key, default)
+
+	def values(self):
+		return self.__dict__.values()
