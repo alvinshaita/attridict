@@ -9,11 +9,9 @@ __email__	= "alvinshaita@gmail.com"
 
 
 class AttriDict(dict):
+
+	'''AttriDict'''
 	def __init__(self, data = {}):
-		'''
-			setup everything with the data given,
-			or with a blank dict
-		'''
 		verified_dict = self.__type_verification(data)
 
 		if verified_dict != None:
@@ -29,9 +27,6 @@ class AttriDict(dict):
 
 
 	def __setattr__(self, key, value):
-		'''
-			called whenever there is an assignment
-		'''
 		if type(value) == dict:
 			value = AttriDict(value)
 		
@@ -44,28 +39,28 @@ class AttriDict(dict):
 	def __contains__(self):
 		return self.__dict__.__contains__(key)
 
-	def __reduce__(self):
-		return self.__dict__.__reduce__()
-
 	def __dir__(self):
 		return dir(self.__class__) + list(self.__dict__.keys())
 
 	def __eq__(self, other):
 		return self.__dict__.__eq__(other)
 
-	def __ne__(self, other):
-		return self.__dict__.__ne__(other)
+	def __iter__(self):
+		return len(self.__dict__.keys())
 
 	def __len__(self):
 		return len(self.__dict__.keys())
 
-	def __iter__(self):
-		return len(self.__dict__.keys())
+	def __ne__(self, other):
+		return self.__dict__.__ne__(other)
 
-	def __str__(self):
-		return str(self.__dict__)
+	def __reduce__(self):
+		return self.__dict__.__reduce__()
 
 	def __repr__(self):
+		return str(self.__dict__)
+
+	def __str__(self):
 		return str(self.__dict__)
 
 
@@ -76,28 +71,6 @@ class AttriDict(dict):
 		# super(AttriDict, self).__init__(self.__dict__)
 
 
-	def __type_verification(self, data):
-		'''verify input is actually of type dict'''
-
-		if type(data) != dict or type(data) != AttriDict:
-			return self.__try_dict_convertion(data)
-		return data
-
-
-	def __try_dict_convertion(self, wannabe_dict):
-		''''
-			if input is not of type dict, 
-			try to convert to dict,
-			if it cannot be converted to dict,
-			return an error
-		'''
-
-		try:
-			return dict(wannabe_dict)
-		except Exception as err:
-			raise AttributeError(err)
-
-
 	def __to_attridict(self, data):
 		for key, value in data.items():
 			if type(value) == dict:
@@ -105,12 +78,26 @@ class AttriDict(dict):
 			else:
 				self.__dict__[key] = value
 
+
 	def __to_dict(self):
 		for key, value in self.__dict__.items():
 			if type(value) == AttriDict:
 				self.__dict__[key] = value.to_dict()
 			else:
+
 				self.__dict__[key] = value
+
+	def __try_dict_convertion(self, wannabe_dict):
+		try:
+			return dict(wannabe_dict)
+		except Exception as err:
+			raise AttributeError(err)
+
+
+	def __type_verification(self, data):
+		if type(data) != dict or type(data) != AttriDict:
+			return self.__try_dict_convertion(data)
+		return data
 
 
 	def to_dict(self):
@@ -118,24 +105,38 @@ class AttriDict(dict):
 		return self.__dict__
 
 
-	'''Typical stuff'''
-	def keys(self):
-		return self.__dict__.keys()
 
-	def values(self):
-		return self.__dict__.values()
-
-	def get(self, key, default = None):
-		return self.__dict__.get(key, default)
-
-	def pop(self, key, value = None):
-		return self.__dict__.pop(key, value)
+	def clear(self):
+		'''D.clear() -> None. Remove all items from D'''
+		self.__dict__.clear()
 
 	def copy(self):
+		'''D.copy() -> a shallow copy of D'''
 		return self.__class__(self)
 
-	def setdefault(self, key, default=None):
-		return self.__dict__.setdefault(key, default)
+	def get(self, key, default = None):
+		'''Return the value for key if key is in the attribute dictionary, else default.'''
+		return self.__dict__.get(key, default)
 
 	def items(self, *args, **kwargs):
+		'''D.items() -> a set-like object providing a view on D's items'''
 		return self.__dict__.items(*args, **kwargs)
+
+	def keys(self):
+		'''D.keys() -> a set-like object providing a view on D's keys'''
+		return self.__dict__.keys()
+
+	def pop(self, key, value = None):
+		'''D.pop(k[,d]) -> v, remove specified key and return the corresponding value.\
+		\nIf key is not found, d is returned if given, otherwise KeyError is raised
+		'''
+		return self.__dict__.pop(key, value)
+
+	def setdefault(self, key, default=None):
+		'''Insert key with a value of default if key is not in the dictionary.\
+		\n\nReturn the value for key if key is in the dictionary, else default.'''
+		return self.__dict__.setdefault(key, default)
+
+	def values(self):
+		'''D.values() -> an object providing a view on D's values'''
+		return self.__dict__.values()
