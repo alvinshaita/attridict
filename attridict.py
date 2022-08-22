@@ -26,6 +26,24 @@ class AttriDict(dict):
 		self.__reset()
 
 
+
+	def __call__(self, data = {}):
+		self = AttriDict()
+		verified_dict = self.__type_verification(data)
+
+		if verified_dict != None:
+			data = verified_dict
+		else:
+			raise AttributeError("argument not valid")
+
+		super(AttriDict, self).__init__(data)
+
+		self.__to_attridict(data)
+
+		self.__reset()
+		return self
+
+
 	def __setattr__(self, key, value):
 		if type(value) == dict:
 			value = AttriDict(value)
@@ -140,3 +158,8 @@ class AttriDict(dict):
 	def values(self):
 		'''D.values() -> an object providing a view on D's values'''
 		return self.__dict__.values()
+
+
+if __name__ == "attridict":
+	import sys
+	sys.modules[__name__] = AttriDict()
