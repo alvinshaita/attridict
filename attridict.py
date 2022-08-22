@@ -44,6 +44,10 @@ class AttriDict(dict):
 
 
 	def __setattr__(self, key, value):
+
+		if not self.__valid_key(key):
+			raise AttributeError("invalid key, '{0}'".format(key))
+
 		if type(value) == dict:
 			value = type(self)(value)
 		
@@ -114,6 +118,12 @@ class AttriDict(dict):
 		if type(data) != dict or type(data) != AttriDict:
 			return self.__try_dict_convertion(data)
 		return data
+
+
+	def __valid_key(self, word):
+		if word in dir(dict):
+			return False
+		return True
 
 
 	def to_dict(self):
