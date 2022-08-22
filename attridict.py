@@ -13,6 +13,22 @@ class AttriDict(dict):
 	'''AttriDict'''
 	def __init__(self, data = {}):
 		verified_dict = self.__type_verification(data)
+		if verified_dict != None:
+			data = verified_dict
+		else:
+			raise AttributeError("argument not valid")
+
+		super(type(self), self).__init__(data)
+
+		self.__to_attridict(data)
+
+		self.__reset()
+
+
+
+	def __call__(self, data = {}):
+		self = AttriDict()
+		verified_dict = self.__type_verification(data)
 
 		if verified_dict != None:
 			data = verified_dict
@@ -24,11 +40,12 @@ class AttriDict(dict):
 		self.__to_attridict(data)
 
 		self.__reset()
+		return self
 
 
 	def __setattr__(self, key, value):
 		if type(value) == dict:
-			value = AttriDict(value)
+			value = type(self)(value)
 		
 		self.__dict__.__setitem__(key, value)
 
@@ -74,17 +91,16 @@ class AttriDict(dict):
 	def __to_attridict(self, data):
 		for key, value in data.items():
 			if type(value) == dict:
-				self.__dict__[key] = AttriDict(value)
+				self.__dict__[key] = type(self)(value)
 			else:
 				self.__dict__[key] = value
 
 
 	def __to_dict(self):
 		for key, value in self.__dict__.items():
-			if type(value) == AttriDict:
+			if type(value) == type(self):
 				self.__dict__[key] = value.to_dict()
 			else:
-
 				self.__dict__[key] = value
 
 	def __try_dict_convertion(self, wannabe_dict):
@@ -140,3 +156,8 @@ class AttriDict(dict):
 	def values(self):
 		'''D.values() -> an object providing a view on D's values'''
 		return self.__dict__.values()
+
+
+if __name__ == "attridict":
+	import sys
+	sys.modules[__name__] = AttriDict
