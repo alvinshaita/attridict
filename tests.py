@@ -1,4 +1,4 @@
-from attridict import AttriDict as attridict
+import attridict
 
 
 att = attridict()
