@@ -7,8 +7,11 @@ __author__	= "Alvin Shaita"
 __email__	= "alvinshaita@gmail.com"
 
 
+class AttriDictAttributes:
+	__version__ = "1.0"
 
-class AttriDict(dict):
+
+class AttriDict(dict, AttriDictAttributes):
 
 	'''AttriDict'''
 	def __init__(self, data = {}):
@@ -85,6 +88,9 @@ class AttriDict(dict):
 		return str(self.__dict__)
 
 
+	def __copy__(self):
+		return self.__class__(self)
+		
 
 	def __reset(self):
 		'''reset dict'''
@@ -138,7 +144,8 @@ class AttriDict(dict):
 
 	def copy(self):
 		'''D.copy() -> a shallow copy of D'''
-		return self.__class__(self)
+		# return self.__class__(self)
+		return self.__copy__()
 
 	def get(self, key, default = None):
 		'''Return the value for key if key is in the attribute dictionary, else default.'''
