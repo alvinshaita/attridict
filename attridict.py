@@ -7,8 +7,10 @@ __author__	= "Alvin Shaita"
 __email__	= "alvinshaita@gmail.com"
 
 
+class AttriDictAttributes:
+	__version__ = 1.0
 
-class AttriDict(dict):
+class AttriDict(dict, AttriDictAttributes):
 
 	'''AttriDict'''
 	def __init__(self, data = {}):
