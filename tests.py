@@ -1,3 +1,7 @@
+'''
+python -m unittest tests.py
+'''
+
 import unittest
 
 import attridict
@@ -141,4 +145,5 @@ class TestAttriDict(unittest.TestCase):
 		self.assertEqual(att, {"one": 111, "two": {"three": 333, "four": {"five": 555}}})
 
 
-unittest.main()
+if __name__ == "__main__":
+	unittest.main()
