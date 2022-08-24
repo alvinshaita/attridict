@@ -1,144 +1,143 @@
+import unittest
+
 import attridict
 
 
-att = attridict()
-assert(att == {})
+class TestAttriDict(unittest.TestCase):
+	def test_attridict(self):
+		att = attridict()
+		# self.assertTrue(att == {})
+		self.assertEqual(att, {})
 
-att.one = 111
-assert(att.one == 111)
-assert(att == {"one": 111})
+		att.one = 111
+		# self.assertTrue(att.one == 111)
+		self.assertEqual(att.one, 111)
+		# self.assertTrue(att == {"one": 111})
+		self.assertEqual(att, {"one": 111})
 
-att.two = {"three": 333}
-assert(att.two == {"three": 333})
-assert(att == {"one": 111, "two": {"three": 333}})
+		att.two = {"three": 333}
+		self.assertEqual(att.two, {"three": 333})
+		self.assertEqual(att, {"one": 111, "two": {"three": 333}})
 
-att.two.four = {"five": 555, "six": 666}
-assert(att.two.four.five == 555)
-assert(att.two.four.six == 666)
+		att.two.four = {"five": 555, "six": 666}
+		self.assertEqual(att.two.four.five, 555)
+		self.assertEqual(att.two.four.six, 666)
 
-assert(att == {"one": 111, "two": {"three": 333, "four": {"five": 555, "six": 666}}})
-
-del att
-
-# # #############################################
-
-data = {"one": 111, "two": {"three": 333, "four": {"five": 555, "six": 666}}}
-att = attridict(data)
-
-assert(att.one == 111)
-assert(att.two == {"three": 333, "four": {"five": 555, "six": 666}})
-assert(att.two.three == 333)
-assert(att.two.four == {"five": 555, "six": 666})
-assert(att.two.four.five == 555)
-assert(att.two.four.six == 666)
-
-att.two = 222
-assert(att.two == 222)
-
-att.three = {"four": 444, "five": 555}
-assert(att.three == {"four": 444, "five": 555})
-assert(att == {"one": 111, "two": 222, "three": {"four": 444, "five": 555}})
-
-del att
+		self.assertEqual(att, {"one": 111, "two": {"three": 333, "four": {"five": 555, "six": 666}}})
 
 
-# __dir__
-# #############################################
-data = {"one": 111, "two": {"three": 333, "four": {"five": 555, "six": 666}}}
-att = attridict(data)
-assert(all(i in att.__dir__() for i in ["one", "two"]))
-assert(all(i in att.two.__dir__() for i in ["three", "four"]))
-assert(all(i in att.two.four.__dir__() for i in ["five", "six"]))
+	def test_attridict2(self):
+		data = {"one": 111, "two": {"three": 333, "four": {"five": 555, "six": 666}}}
+		att = attridict(data)
 
-del att
+		self.assertEqual(att.one, 111)
+		self.assertEqual(att.two, {"three": 333, "four": {"five": 555, "six": 666}})
+		self.assertEqual(att.two.three, 333)
+		self.assertEqual(att.two.four, {"five": 555, "six": 666})
+		self.assertEqual(att.two.four.five, 555)
+		self.assertEqual(att.two.four.six, 666)
 
+		att.two = 222
+		self.assertEqual(att.two, 222)
 
-# #############################################
-
-
-
-
-
-#############################################################################
-# problem tests
-#############################################################################
-
-data = {"one": 111, "two": {"three": 333, "four": {"five": 555, "six": 666}}}
-att = attridict(data)
-att.three = {"four": 444, "five": 565}
-
-del att
-
-#############################################################################
+		att.three = {"four": 444, "five": 555}
+		self.assertEqual(att.three, {"four": 444, "five": 555})
+		self.assertEqual(att, {"one": 111, "two": 222, "three": {"four": 444, "five": 555}})
 
 
-data = {"one": 111, "two": {"three": 333, "four": {"five": 555, "six": 666}}}
-att = attridict(data)
+	def test_attridict3(self):
+		data = {"one": 111, "two": {"three": 333, "four": {"five": 555, "six": 666}}}
+		att = attridict(data)
 
-assert(data.__len__() == att.__len__())
-assert(data["two"].__len__() == att.two.__len__())
-assert(data["two"]["four"].__len__() == att.two.four.__len__())
+		self.assertEqual(att.one, 111)
+		self.assertEqual(att.two, {"three": 333, "four": {"five": 555, "six": 666}})
+		self.assertEqual(att.two.three, 333)
+		self.assertEqual(att.two.four, {"five": 555, "six": 666})
+		self.assertEqual(att.two.four.five, 555)
+		self.assertEqual(att.two.four.six, 666)
 
-del att
-#############################################################################
+
+		att.two = 222
+		self.assertEqual(att.two, 222)
+
+		att.three = {"four": 444, "five": 555}
+		self.assertEqual(att.three, {"four": 444, "five": 555})
+		self.assertEqual(att, {"one": 111, "two": 222, "three": {"four": 444, "five": 555}})
+
+
+	def test_attridict4(self):
+		data = {"one": 111, "two": {"three": 333, "four": {"five": 555, "six": 666}}}
+		att = attridict(data)
+		self.assertTrue(all(i in att.__dir__() for i in ["one", "two"]))
+		self.assertTrue(all(i in att.two.__dir__() for i in ["three", "four"]))
+		self.assertTrue(all(i in att.two.four.__dir__() for i in ["five", "six"]))
 
 
 
-##########################################################################################################
-##########################################################################################################
+	def test_attridict5(self):
+		# #############################################################################
+		# # problem tests
+		# #############################################################################
+
+		data = {"one": 111, "two": {"three": 333, "four": {"five": 555, "six": 666}}}
+		att = attridict(data)
+		att.three = {"four": 444, "five": 565}
+
+		del att
+
+		# #############################################################################
+
+		data = {"one": 111, "two": {"three": 333, "four": {"five": 555, "six": 666}}}
+		att = attridict(data)
+
+		self.assertEqual(data.__len__(), att.__len__())
+		self.assertEqual(data["two"].__len__(), att.two.__len__())
+		self.assertEqual(data["two"]["four"].__len__(), att.two.four.__len__())
+
+		# ################################################################################
 
 
-data = {"one": 111, "two": {"three": 333, "four": {"five": 555, "six": 666}}}
-att = attridict(data)
-assert(att == data)
-
-del att
-
-#######################################
-
-data = {"one": 111, "two": {"three": 333, "four": {"five": 555, "six": 666}}}
-att = attridict(data)
-att_mutable = att
-att.two = 222
-assert(att == att_mutable)
-
-del att
-
-#######################################
-
-data = {"one": 111, "two": {"three": 333, "four": {"five": 555, "six": 666}}}
-att = attridict(data)
-att_copy = att.copy()
-att.two = 222
-assert(att != att_copy)
-assert(att_copy == data)
-
-del att
-#######################################
-
-data = {"one": 111, "two": {"three": 333, "four": {"five": 555, "six": 666}}}
-att = attridict(data)
-
-att_dict = att.to_dict()
-assert(type(att_dict) == dict)
-assert(type(att_dict["two"]) == dict)
-assert(type(att_dict["two"]["four"]) == dict)
-
-del att_dict
-
-#######################################
+	def test_attridict6(self):
+		data = {"one": 111, "two": {"three": 333, "four": {"five": 555, "six": 666}}}
+		att = attridict(data)
+		self.assertEqual(att, data)
 
 
-data = {"one": 111, "two": {"three": 333, "four": {"five": 555, "six": 666}}}
-att = attridict(data)
-
-del att.two.four.six
-assert(att == {"one": 111, "two": {"three": 333, "four": {"five": 555}}})
-
-del att
-
-
-#####################################################
+	def test_attridict7(self):
+		data = {"one": 111, "two": {"three": 333, "four": {"five": 555, "six": 666}}}
+		att = attridict(data)
+		att_mutable = att
+		att.two = 222
+		self.assertEqual(att, att_mutable)
 
 
-print("Test End!!")
+	def test_attridict8(self):
+		data = {"one": 111, "two": {"three": 333, "four": {"five": 555, "six": 666}}}
+		att = attridict(data)
+		att_copy = att.copy()
+		att.two = 222
+		self.assertNotEqual(att, att_copy)
+		self.assertEqual(att_copy, data)
+
+
+	def test_attridict9(self):
+		data = {"one": 111, "two": {"three": 333, "four": {"five": 555, "six": 666}}}
+		att = attridict(data)
+
+		att_dict = att.to_dict()
+		self.assertEqual(type(att_dict), dict)
+		self.assertEqual(type(att_dict["two"]), dict)
+		self.assertEqual(type(att_dict["two"]["four"]), dict)
+
+
+
+	def test_attridict10(self):
+
+		data = {"one": 111, "two": {"three": 333, "four": {"five": 555, "six": 666}}}
+		att = attridict(data)
+
+		del att.two.four.six
+		self.assertEqual(att, {"one": 111, "two": {"three": 333, "four": {"five": 555}}})
+
+
+unittest.main()
