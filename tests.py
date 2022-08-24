@@ -6,13 +6,10 @@ import attridict
 class TestAttriDict(unittest.TestCase):
 	def test_attridict(self):
 		att = attridict()
-		# self.assertTrue(att == {})
 		self.assertEqual(att, {})
 
 		att.one = 111
-		# self.assertTrue(att.one == 111)
 		self.assertEqual(att.one, 111)
-		# self.assertTrue(att == {"one": 111})
 		self.assertEqual(att, {"one": 111})
 
 		att.two = {"three": 333}
@@ -49,29 +46,27 @@ class TestAttriDict(unittest.TestCase):
 		data = {"one": 111, "two": {"three": 333, "four": {"five": 555, "six": 666}}}
 		att = attridict(data)
 
-		self.assertEqual(att.one, 111)
-		self.assertEqual(att.two, {"three": 333, "four": {"five": 555, "six": 666}})
-		self.assertEqual(att.two.three, 333)
-		self.assertEqual(att.two.four, {"five": 555, "six": 666})
-		self.assertEqual(att.two.four.five, 555)
-		self.assertEqual(att.two.four.six, 666)
+		self.assertEqual(att, data)
+		self.assertEqual(att.one, data["one"])
+		self.assertEqual(att.two, data["two"])
+		self.assertEqual(att.two.three, data["two"]["three"])
+		self.assertEqual(att.two.four, data["two"]["four"])
+		self.assertEqual(att.two.four.five, data["two"]["four"]["five"])
+		self.assertEqual(att.two.four.six, data["two"]['four']["six"])
 
 
-		att.two = 222
-		self.assertEqual(att.two, 222)
-
-		att.three = {"four": 444, "five": 555}
-		self.assertEqual(att.three, {"four": 444, "five": 555})
-		self.assertEqual(att, {"one": 111, "two": 222, "three": {"four": 444, "five": 555}})
-
-
-	def test_attridict4(self):
+	def test_dir(self):
 		data = {"one": 111, "two": {"three": 333, "four": {"five": 555, "six": 666}}}
 		att = attridict(data)
-		self.assertTrue(all(i in att.__dir__() for i in ["one", "two"]))
-		self.assertTrue(all(i in att.two.__dir__() for i in ["three", "four"]))
-		self.assertTrue(all(i in att.two.four.__dir__() for i in ["five", "six"]))
 
+		for i in data.keys():
+			self.assertIn(i, att.__dir__())
+
+		for i in data["two"].keys():
+			self.assertIn(i, att.two.__dir__())
+
+		for i in data["two"]["four"].keys():
+			self.assertIn(i, att.two.four.__dir__())
 
 
 	def test_attridict5(self):
@@ -103,28 +98,34 @@ class TestAttriDict(unittest.TestCase):
 		self.assertEqual(att, data)
 
 
-	def test_attridict7(self):
+	def test_mutable(self):
 		data = {"one": 111, "two": {"three": 333, "four": {"five": 555, "six": 666}}}
 		att = attridict(data)
 		att_mutable = att
 		att.two = 222
 		self.assertEqual(att, att_mutable)
+		self.assertIs(att, att_mutable)
 
 
-	def test_attridict8(self):
+	def test_copy(self):
 		data = {"one": 111, "two": {"three": 333, "four": {"five": 555, "six": 666}}}
 		att = attridict(data)
 		att_copy = att.copy()
+		
+		self.assertIsNot(att, att_copy)
+
 		att.two = 222
 		self.assertNotEqual(att, att_copy)
 		self.assertEqual(att_copy, data)
 
 
-	def test_attridict9(self):
+	def test_to_dict(self):
 		data = {"one": 111, "two": {"three": 333, "four": {"five": 555, "six": 666}}}
 		att = attridict(data)
 
 		att_dict = att.to_dict()
+		self.assertEqual(data, att_dict)
+
 		self.assertEqual(type(att_dict), dict)
 		self.assertEqual(type(att_dict["two"]), dict)
 		self.assertEqual(type(att_dict["two"]["four"]), dict)
