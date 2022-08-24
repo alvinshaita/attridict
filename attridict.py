@@ -10,6 +10,7 @@ __email__	= "alvinshaita@gmail.com"
 class AttriDictAttributes:
 	__version__ = "1.0"
 
+
 class AttriDict(dict, AttriDictAttributes):
 
 	'''AttriDict'''
