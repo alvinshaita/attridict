@@ -9,7 +9,7 @@ with open("README.md", 'r') as readme:
 
 setup(
 	name="attridict",
-	version="1.0",
+	version="0.1",
 	author="Alvin Shaita",
 	author_email="alvinshaita@gmail.com",
 	url="https://github.com/alvinshaita/attridict",
@@ -17,5 +17,6 @@ setup(
 	packages=["."],
 	keywords="dict, attridict, attrdict, attribute, attributes, dictionary, attr, dot, struct",
 	description="A dict object with support for easy access via attributes",
-	long_description=long_description
+	long_description=long_description,
+	long_description_content_type='text/markdown'
 )
