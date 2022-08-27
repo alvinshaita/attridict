@@ -15,22 +15,37 @@ pip install attridict
 >>> att = attridict()
 >>> att
 {}
->>> att.one = 111
->>> att.one
-111
+>>> att.foo = "bar"
+>>> att.foo
+'bar'
 >>> att
-{'one': 111}
+{'foo': 'bar'}
 ```
+
 ```python
->>> data = {"one": 111, "two": {"three": 333, "four": 444}}
->>> att = attridict(data)
->>> att.two.four
-444
->>> att
-{"one": 111, "two": {"three": 333, "four": 444}}
->>> att.two = 222
->>> att
-{"one": 111, "two": 222}
+>>> import attridict
+
+>>> data = {'red': 'hot', 'blue': 'cold'}
+
+>>> colors = attridict(data)
+>>> colors
+{'red': 'hot', 'blue': 'cold'}
+
+>>> colors.blue
+'cold'
+
+>>> colors.blue = "sky"
+>>> colors.red = "rose"
+>>> colors.blue
+'sky'
+>>> colors.red
+'rose'
+>>> colors
+{'red': 'rose', 'blue': 'sky'}
+
+>>> colors.green = "grass"
+>>> colors
+{'red': 'rose', 'blue': 'sky', 'green': 'grass'}
 ```
 ## License
 The project is MIT licensed
