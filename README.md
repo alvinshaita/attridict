@@ -1,7 +1,12 @@
 # attridict
-Attribute Dictonary
+A Python package implementing atrribute dictionary.
+
+This provides an easier and cleaner way to access dict values using their keys as attributes. It is typically a dict child, maintaining all the dict functionalities, but including some extra features.
+
+
 
 ## Installation
+To install the package from PyPI, use:
 ```
 pip install attridict
 ```
