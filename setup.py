@@ -16,7 +16,7 @@ setup(
 	license="MIT License",
 	packages=["."],
 	keywords="dict, attridict, attrdict, attribute, attributes, dictionary, attr, dot, struct",
-	description="A dict object with support for easy access via attributes",
+	description="A dict implementation with support for easy and clean access of its values through attributes",
 	long_description=long_description,
 	long_description_content_type='text/markdown'
 )
