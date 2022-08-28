@@ -1,5 +1,7 @@
 # attridict
+![Build Status](https://github.com/alvinshaita/attridict/actions/workflows/attridict.yml/badge.svg?branch=main)
 ![GitHub](https://img.shields.io/github/license/alvinshaita/attridict.svg)
+
 
 A Python package implementing atrribute dictionary.
 
