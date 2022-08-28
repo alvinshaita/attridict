@@ -4,10 +4,7 @@
 name: Python application
 
 on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+  push
 
 permissions:
   contents: read
@@ -23,6 +20,6 @@ jobs:
       uses: actions/setup-python@v3
       with:
         python-version: "3.x"
-    - name: Test with unittest
+    - name: Unittest
       run: |
         python tests.py
