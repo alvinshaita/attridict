@@ -14,7 +14,7 @@ class AttriDictAttributes:
 class AttriDict(dict, AttriDictAttributes):
 
 	'''AttriDict'''
-	def __init__(self, data = {}):
+	def __init__(self, data = {}, deep = True):
 		verified_dict = self.__type_verification(data)
 		if verified_dict != None:
 			data = verified_dict
@@ -23,7 +23,7 @@ class AttriDict(dict, AttriDictAttributes):
 
 		super(type(self), self).__init__(data)
 
-		self.__to_attridict(data)
+		self.__to_attridict(data, deep)
 
 		self.__reset()
 
@@ -40,7 +40,7 @@ class AttriDict(dict, AttriDictAttributes):
 
 		super(AttriDict, self).__init__(data)
 
-		self.__to_attridict(data)
+		self.__to_attridict(data, deep)
 
 		self.__reset()
 		return self
@@ -98,13 +98,25 @@ class AttriDict(dict, AttriDictAttributes):
 		# super(AttriDict, self).__init__(self.__dict__)
 
 
-	def __to_attridict(self, data):
+	def __to_attridict(self, data, deep):
 		for key, value in data.items():
-			if type(value) == dict:
-				self.__dict__[key] = type(self)(value)
+			if deep:
+				typ = type(value)
+				if typ == dict:
+					self.__dict__[key] = type(self)(value, deep)
+
+				elif typ in [list, tuple]:
+					value = list(value)
+
+					for i, val in enumerate(value):
+						if type(val) == dict:
+							value[i] = type(self)(val, deep)
+					
+					self.__dict__[key] = typ(value)
+				else:
+					self.__dict__[key] = value
 			else:
 				self.__dict__[key] = value
-
 
 	def __to_dict(self):
 		for key, value in self.__dict__.items():
