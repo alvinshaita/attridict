@@ -137,7 +137,6 @@ class TestAttriDict(unittest.TestCase):
 		self.assertEqual(type(att_dict["two"]["four"]), dict)
 
 
-
 	def test_attridict10(self):
 
 		data = {"one": 111, "two": {"three": 333, "four": {"five": 555, "six": 666}}}
@@ -145,6 +144,23 @@ class TestAttriDict(unittest.TestCase):
 
 		del att.two.four.six
 		self.assertEqual(att, {"one": 111, "two": {"three": 333, "four": {"five": 555}}})
+
+
+	def test_deep_true(self):
+		data = {"one": 111, "two": [{"three": 333, "four": 444}]}
+		att = attridict(data, True)
+		
+		self.assertEqual(type(att.two[0]), attridict)
+		self.assertEqual(att.two[0], {"three": 333, "four": 444})
+		self.assertEqual(att.two[0].three, 333)
+
+
+	def test_deep_false(self):
+		data = {"one": 111, "two": [{"three": 333, "four": 444}]}
+		att = attridict(data, False)
+
+		self.assertEqual(type(att.two[0]), dict)
+		self.assertEqual(att.two[0], {"three": 333, "four": 444})
 
 
 if __name__ == "__main__":
