@@ -122,10 +122,21 @@ class AttriDict(dict, AttriDictAttributes):
 
 	def __to_dict(self):
 		for key, value in self.__dict__.items():
-			if type(value) == type(self):
+			typ = type(value)
+			if typ == type(self):
 				self.__dict__[key] = value.to_dict()
-			else:
+
+			elif typ in [list, tuple]:
+				value = list(value)
+
+				for i, val in enumerate(value):
+					if type(val) == type(self):
+						value[i] = val.to_dict()
+
+				self.__dict__[key] = typ(value)
+			else:	
 				self.__dict__[key] = value
+
 
 	def __try_dict_convertion(self, wannabe_dict):
 		try:
