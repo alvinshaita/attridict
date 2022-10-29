@@ -90,7 +90,9 @@ class AttriDict(dict, AttriDictAttributes):
 
 	def __copy__(self):
 		return self.__class__(self)
-		
+
+	def __print__(self):
+		return f"{{@{str(self.__dict__)[1:-1]}@}}"		
 
 	def __reset(self):
 		'''reset dict'''
