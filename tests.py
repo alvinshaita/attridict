@@ -191,5 +191,11 @@ class TestAttriDict(unittest.TestCase):
 			d_attr["two"][0].three
 		self.assertEqual(str(ctx.exception), "'dict' object has no attribute 'three'")
 
+	def test_to_string_dunder_method(self):
+		data = {"one": 111, "two": 222}
+		att = attridict(data)
+
+		self.assertEqual(att.__to_string__(), "{@'one': 111, 'two': 222@}")
+
 if __name__ == "__main__":
 	unittest.main()
