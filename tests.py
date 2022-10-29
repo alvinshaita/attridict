@@ -162,6 +162,19 @@ class TestAttriDict(unittest.TestCase):
 		self.assertEqual(type(att.two[0]), dict)
 		self.assertEqual(att.two[0], {"three": 333, "four": 444})
 
+	def test_to_dict_deep(self):
+		data = {"one": 111, "two": [{"three": 333, "four": 444}]}
+		att = attridict(data, True)
+		
+		self.assertEqual(type(att.two[0]), attridict)
+		self.assertEqual(att.two[0], {"three": 333, "four": 444})
+		self.assertEqual(att.two[0].three, 333)
+
+		d_attr = att.to_dict()
+
+		with self.assertRaises(AttributeError) as ctx:
+			d_attr["two"][0].three
+		self.assertEqual(str(ctx.exception), "'dict' object has no attribute 'three'")
 
 if __name__ == "__main__":
 	unittest.main()
