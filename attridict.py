@@ -91,7 +91,7 @@ class AttriDict(dict, AttriDictAttributes):
 	def __copy__(self):
 		return self.__class__(self)
 
-	def __print__(self):
+	def __to_string__(self):
 		return f"{{@{str(self.__dict__)[1:-1]}@}}"		
 
 	def __reset(self):
