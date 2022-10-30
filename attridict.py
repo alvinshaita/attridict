@@ -27,8 +27,6 @@ class AttriDict(dict, AttriDictAttributes):
 
 		self.__reset()
 
-
-
 	def __call__(self, data = {}):
 		self = AttriDict()
 		verified_dict = self.__type_verification(data)
@@ -45,29 +43,20 @@ class AttriDict(dict, AttriDictAttributes):
 		self.__reset()
 		return self
 
-
-	def __setattr__(self, key, value):
-
-		if not self.__valid_key(key):
-			raise AttributeError("invalid key, '{0}'".format(key))
-
-		if type(value) == dict:
-			value = type(self)(value)
-		
-		self.__dict__.__setitem__(key, value)
-
-		self.__reset()
-
-
-
 	def __contains__(self):
 		return self.__dict__.__contains__(key)
+
+	def __delitem__(self, key):
+		self.__dict__.__delitem__(key)
 
 	def __dir__(self):
 		return dir(self.__class__) + list(self.__dict__.keys())
 
 	def __eq__(self, other):
 		return self.__dict__.__eq__(other)
+
+	def __getitem__(self, key):
+		return self.__dict__.__getitem__(key)
 
 	def __iter__(self):
 		return len(self.__dict__.keys())
@@ -83,6 +72,20 @@ class AttriDict(dict, AttriDictAttributes):
 
 	def __repr__(self):
 		return str(self.__dict__)
+
+	def __setattr__(self, key, value):
+		if not self.__valid_key(key):
+			raise AttributeError("invalid key, '{0}'".format(key))
+
+		if type(value) == dict:
+			value = type(self)(value)
+		
+		self.__dict__.__setitem__(key, value)
+
+		self.__reset()
+
+	def __setitem__(self, key, value):
+		self.__dict__.__setitem__(key, value)
 
 	def __str__(self):
 		return str(self.__dict__)
@@ -190,10 +193,16 @@ class AttriDict(dict, AttriDictAttributes):
 		'''
 		return self.__dict__.pop(key, value)
 
+	def popitem(self):
+		return self.__dict__.popitem()
+
 	def setdefault(self, key, default=None):
 		'''Insert key with a value of default if key is not in the dictionary.\
 		\n\nReturn the value for key if key is in the dictionary, else default.'''
 		return self.__dict__.setdefault(key, default)
+
+	def update(self, *args, **kwargs):
+		return self.__dict__.update(*args, **kwargs)
 
 	def values(self):
 		'''D.values() -> an object providing a view on D's values'''
