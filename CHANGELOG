@@ -1,1 +1,3 @@
-v0.0.1 - Initial version
+v0.0.1	Initial version
+v0.0.2	Convert dict to attridict, and attridict to dict, deep
+		ie. dict and attridict values inside containers (list, tuple)

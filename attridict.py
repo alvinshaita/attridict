@@ -14,7 +14,7 @@ class AttriDictAttributes:
 class AttriDict(dict, AttriDictAttributes):
 
 	'''AttriDict'''
-	def __init__(self, data = {}):
+	def __init__(self, data = {}, deep = True):
 		verified_dict = self.__type_verification(data)
 		if verified_dict != None:
 			data = verified_dict
@@ -23,11 +23,9 @@ class AttriDict(dict, AttriDictAttributes):
 
 		super(type(self), self).__init__(data)
 
-		self.__to_attridict(data)
+		self.__to_attridict(data, deep)
 
 		self.__reset()
-
-
 
 	def __call__(self, data = {}):
 		self = AttriDict()
@@ -40,34 +38,25 @@ class AttriDict(dict, AttriDictAttributes):
 
 		super(AttriDict, self).__init__(data)
 
-		self.__to_attridict(data)
+		self.__to_attridict(data, deep)
 
 		self.__reset()
 		return self
 
-
-	def __setattr__(self, key, value):
-
-		if not self.__valid_key(key):
-			raise AttributeError("invalid key, '{0}'".format(key))
-
-		if type(value) == dict:
-			value = type(self)(value)
-		
-		self.__dict__.__setitem__(key, value)
-
-		self.__reset()
-
-
-
 	def __contains__(self):
 		return self.__dict__.__contains__(key)
+
+	def __delitem__(self, key):
+		self.__dict__.__delitem__(key)
 
 	def __dir__(self):
 		return dir(self.__class__) + list(self.__dict__.keys())
 
 	def __eq__(self, other):
 		return self.__dict__.__eq__(other)
+
+	def __getitem__(self, key):
+		return self.__dict__.__getitem__(key)
 
 	def __iter__(self):
 		return len(self.__dict__.keys())
@@ -84,13 +73,29 @@ class AttriDict(dict, AttriDictAttributes):
 	def __repr__(self):
 		return str(self.__dict__)
 
+	def __setattr__(self, key, value):
+		if not self.__valid_key(key):
+			raise AttributeError("invalid key, '{0}'".format(key))
+
+		if type(value) == dict:
+			value = type(self)(value)
+		
+		self.__dict__.__setitem__(key, value)
+
+		self.__reset()
+
+	def __setitem__(self, key, value):
+		self.__dict__.__setitem__(key, value)
+
 	def __str__(self):
 		return str(self.__dict__)
 
 
 	def __copy__(self):
 		return self.__class__(self)
-		
+
+	def __to_string__(self):
+		return f"{{@{str(self.__dict__)[1:-1]}@}}"		
 
 	def __reset(self):
 		'''reset dict'''
@@ -98,20 +103,43 @@ class AttriDict(dict, AttriDictAttributes):
 		# super(AttriDict, self).__init__(self.__dict__)
 
 
-	def __to_attridict(self, data):
+	def __to_attridict(self, data, deep):
 		for key, value in data.items():
-			if type(value) == dict:
-				self.__dict__[key] = type(self)(value)
+			if deep:
+				typ = type(value)
+				if typ == dict:
+					self.__dict__[key] = type(self)(value, deep)
+
+				elif typ in [list, tuple]:
+					value = list(value)
+
+					for i, val in enumerate(value):
+						if type(val) == dict:
+							value[i] = type(self)(val, deep)
+					
+					self.__dict__[key] = typ(value)
+				else:
+					self.__dict__[key] = value
 			else:
 				self.__dict__[key] = value
-
 
 	def __to_dict(self):
 		for key, value in self.__dict__.items():
-			if type(value) == type(self):
+			typ = type(value)
+			if typ == type(self):
 				self.__dict__[key] = value.to_dict()
-			else:
+
+			elif typ in [list, tuple]:
+				value = list(value)
+
+				for i, val in enumerate(value):
+					if type(val) == type(self):
+						value[i] = val.to_dict()
+
+				self.__dict__[key] = typ(value)
+			else:	
 				self.__dict__[key] = value
+
 
 	def __try_dict_convertion(self, wannabe_dict):
 		try:
@@ -165,10 +193,16 @@ class AttriDict(dict, AttriDictAttributes):
 		'''
 		return self.__dict__.pop(key, value)
 
+	def popitem(self):
+		return self.__dict__.popitem()
+
 	def setdefault(self, key, default=None):
 		'''Insert key with a value of default if key is not in the dictionary.\
 		\n\nReturn the value for key if key is in the dictionary, else default.'''
 		return self.__dict__.setdefault(key, default)
+
+	def update(self, *args, **kwargs):
+		return self.__dict__.update(*args, **kwargs)
 
 	def values(self):
 		'''D.values() -> an object providing a view on D's values'''

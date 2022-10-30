@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 '''
 python -m unittest tests.py
 '''
@@ -135,7 +137,6 @@ class TestAttriDict(unittest.TestCase):
 		self.assertEqual(type(att_dict["two"]["four"]), dict)
 
 
-
 	def test_attridict10(self):
 
 		data = {"one": 111, "two": {"three": 333, "four": {"five": 555, "six": 666}}}
@@ -144,6 +145,57 @@ class TestAttriDict(unittest.TestCase):
 		del att.two.four.six
 		self.assertEqual(att, {"one": 111, "two": {"three": 333, "four": {"five": 555}}})
 
+
+	def test_deep_true(self):
+		data = {"one": 111, "two": [{"three": 333, "four": 444}]}
+		att = attridict(data, True)
+		
+		self.assertEqual(type(att.two[0]), attridict)
+		self.assertEqual(att.two[0], {"three": 333, "four": 444})
+		self.assertEqual(att.two[0].three, 333)
+
+
+	def test_deep_false(self):
+		data = {"one": 111, "two": [{"three": 333, "four": 444}]}
+		att = attridict(data, False)
+
+		self.assertEqual(type(att.two[0]), dict)
+		self.assertEqual(att.two[0], {"three": 333, "four": 444})
+
+	def test_to_dict_deep_list(self):
+		data = {"one": 111, "two": [{"three": 333, "four": 444}]}
+		att = attridict(data, True)
+	
+		self.assertEqual(type(att.two[0]), attridict)
+		self.assertEqual(att.two[0], {"three": 333, "four": 444})
+		self.assertEqual(att.two[0].three, 333)
+
+		d_attr = att.to_dict()
+
+		with self.assertRaises(AttributeError) as ctx:
+			d_attr["two"][0].three
+		self.assertEqual(str(ctx.exception), "'dict' object has no attribute 'three'")
+
+
+	def test_to_dict_deep_tuple(self):
+		data = {"one": 111, "two": tuple(({"three": 333, "four": 444},))}
+		att = attridict(data, True)
+	
+		self.assertEqual(type(att.two[0]), attridict)
+		self.assertEqual(att.two[0], {"three": 333, "four": 444})
+		self.assertEqual(att.two[0].three, 333)
+
+		d_attr = att.to_dict()
+
+		with self.assertRaises(AttributeError) as ctx:
+			d_attr["two"][0].three
+		self.assertEqual(str(ctx.exception), "'dict' object has no attribute 'three'")
+
+	def test_to_string_dunder_method(self):
+		data = {"one": 111, "two": 222}
+		att = attridict(data)
+
+		self.assertEqual(att.__to_string__(), "{@'one': 111, 'two': 222@}")
 
 if __name__ == "__main__":
 	unittest.main()
