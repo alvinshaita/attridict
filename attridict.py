@@ -8,7 +8,7 @@ __email__	= "alvinshaita@gmail.com"
 
 
 class AttriDictAttributes:
-	__version__ = "0.0.2"
+	__version__ = "0.0.3"
 
 
 class AttriDict(dict, AttriDictAttributes):
