@@ -6,8 +6,8 @@ from setuptools import setup
 
 import attridict
 
-with open("README.md", 'r') as readme:
-	long_description = readme.read()
+readme = open("README.md", 'r')
+long_description = readme.read()
 
 setup(
 	name="attridict",
@@ -17,8 +17,16 @@ setup(
 	url="https://github.com/alvinshaita/attridict",
 	license="MIT License",
 	packages=["."],
-	keywords="dict, attridict, attrdict, attribute, attributes, dictionary, attr, dot, struct",
+	keywords="attridict, attrdict, struct, dict, dot, attribute, attributes, dictionary, attr",
 	description="A dict implementation with support for easy and clean access of its values through attributes",
 	long_description=long_description,
-	long_description_content_type='text/markdown'
+	long_description_content_type='text/markdown',
+	classifiers=[
+		"Intended Audience :: Developers",
+		"License :: OSI Approved :: MIT License",
+		"Programming Language :: Python :: 2",
+        	"Programming Language :: Python :: 3",
+        	"Programming Language :: Python :: Implementation :: CPython",
+        	"Programming Language :: Python :: Implementation :: PyPy",
+	]
 )
