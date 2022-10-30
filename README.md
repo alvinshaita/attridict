@@ -19,6 +19,8 @@ pip install attridict
 
 
 ## Usage
+
+Creating an attridict object
 ```python
 >>> import attridict
 >>> att = attridict()
@@ -30,7 +32,21 @@ pip install attridict
 >>> att
 {'foo': 'bar'}
 ```
+<br/>
 
+A dict can be converted into an attridict object by passing it as an argument
+```python
+>>> import attridict
+
+>>> data = {'red': 'hot', 'blue': 'cold'}
+
+>>> colors = attridict(data)
+>>> colors
+{'red': 'hot', 'blue': 'cold'}
+```
+<br/>
+
+Modifying attridict object
 ```python
 >>> import attridict
 
@@ -55,6 +71,29 @@ pip install attridict
 >>> colors.green = "grass"
 >>> colors
 {'red': 'rose', 'blue': 'sky', 'green': 'grass'}
+```
+<br/>
+
+Typical `dict` operations work on attridict objects
+```python
+>>> import attridict
+
+>>> data = {'red': 'hot', 'blue': 'cold'}
+
+>>> colors = attridict(data)
+>>> colors
+{'red': 'hot', 'blue': 'cold'}
+
+>>> colors.red
+'rose'
+>>> colors["red"]
+'rose'
+
+>>> colors["red"] = "tomato"
+>>> colors["red"]
+'tomato'
+>>> colors.red
+'tomato'
 ```
 ## License
 The project is MIT licensed
