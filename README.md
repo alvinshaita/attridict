@@ -43,6 +43,9 @@ A dict can be converted into an attridict object by passing it as an argument
 >>> colors = attridict(data)
 >>> colors
 {'red': 'hot', 'blue': 'cold'}
+
+>>> colors.red
+'hot'
 ```
 <br/>
 
