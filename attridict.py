@@ -149,9 +149,9 @@ class AttriDict(dict, AttriDictAttributes):
 
 
 	def __type_verification(self, data):
-		if type(data) != dict or type(data) != AttriDict:
-			return self.__try_dict_convertion(data)
-		return data
+		if type(data) == dict or type(data) == AttriDict:
+			return data
+		return self.__try_dict_convertion(data)
 
 
 	def __valid_key(self, word):
