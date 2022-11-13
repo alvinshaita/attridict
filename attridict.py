@@ -59,7 +59,7 @@ class AttriDict(dict, AttriDictAttributes):
 		return self.__dict__.__getitem__(key)
 
 	def __iter__(self):
-		return len(self.__dict__.keys())
+		return self.__dict__.__iter__()
 
 	def __len__(self):
 		return len(self.__dict__.keys())
