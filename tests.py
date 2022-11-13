@@ -197,5 +197,13 @@ class TestAttriDict(unittest.TestCase):
 
 		self.assertEqual(att.__to_string__(), "{@'one': 111, 'two': 222@}")
 
+
+	def test_iter(self):
+		data = {"one": 111}
+		att = attridict(data)
+		
+		for i in att:
+			self.assertEqual(i, "one")
+
 if __name__ == "__main__":
 	unittest.main()
