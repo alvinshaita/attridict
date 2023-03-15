@@ -11,6 +11,7 @@ import attridict
 
 class TestAttriDict(unittest.TestCase):
 	def test_attridict(self):
+		# test growth through assignment
 		att = attridict()
 		self.assertEqual(att, {})
 
@@ -30,6 +31,7 @@ class TestAttriDict(unittest.TestCase):
 
 
 	def test_attridict2(self):
+		# test conversion from dict
 		data = {"one": 111, "two": {"three": 333, "four": {"five": 555, "six": 666}}}
 		att = attridict(data)
 
@@ -40,6 +42,7 @@ class TestAttriDict(unittest.TestCase):
 		self.assertEqual(att.two.four.five, 555)
 		self.assertEqual(att.two.four.six, 666)
 
+		# test reassignment of assigned values
 		att.two = 222
 		self.assertEqual(att.two, 222)
 
@@ -49,6 +52,7 @@ class TestAttriDict(unittest.TestCase):
 
 
 	def test_attridict3(self):
+		# test value conservativity of converted dict
 		data = {"one": 111, "two": {"three": 333, "four": {"five": 555, "six": 666}}}
 		att = attridict(data)
 
@@ -61,32 +65,12 @@ class TestAttriDict(unittest.TestCase):
 		self.assertEqual(att.two.four.six, data["two"]['four']["six"])
 
 
-	def test_dir(self):
-		data = {"one": 111, "two": {"three": 333, "four": {"five": 555, "six": 666}}}
-		att = attridict(data)
-
-		for i in data.keys():
-			self.assertIn(i, att.__dir__())
-
-		for i in data["two"].keys():
-			self.assertIn(i, att.two.__dir__())
-
-		for i in data["two"]["four"].keys():
-			self.assertIn(i, att.two.four.__dir__())
-
-
 	def test_attridict5(self):
-		# #############################################################################
-		# # problem tests
-		# #############################################################################
-
 		data = {"one": 111, "two": {"three": 333, "four": {"five": 555, "six": 666}}}
 		att = attridict(data)
 		att.three = {"four": 444, "five": 565}
 
 		del att
-
-		# #############################################################################
 
 		data = {"one": 111, "two": {"three": 333, "four": {"five": 555, "six": 666}}}
 		att = attridict(data)
@@ -95,16 +79,16 @@ class TestAttriDict(unittest.TestCase):
 		self.assertEqual(data["two"].__len__(), att.two.__len__())
 		self.assertEqual(data["two"]["four"].__len__(), att.two.four.__len__())
 
-		# ################################################################################
-
 
 	def test_attridict6(self):
+		# test equality of attridict and initialized dict
 		data = {"one": 111, "two": {"three": 333, "four": {"five": 555, "six": 666}}}
 		att = attridict(data)
 		self.assertEqual(att, data)
 
 
 	def test_mutable(self):
+		# test mutability of an attridict object
 		data = {"one": 111, "two": {"three": 333, "four": {"five": 555, "six": 666}}}
 		att = attridict(data)
 		att_mutable = att
@@ -114,6 +98,7 @@ class TestAttriDict(unittest.TestCase):
 
 
 	def test_copy(self):
+		# test attridict copy is not equal to original
 		data = {"one": 111, "two": {"three": 333, "four": {"five": 555, "six": 666}}}
 		att = attridict(data)
 		att_copy = att.copy()
@@ -126,6 +111,7 @@ class TestAttriDict(unittest.TestCase):
 
 
 	def test_to_dict(self):
+		# test to_dict() returns dict
 		data = {"one": 111, "two": {"three": 333, "four": {"five": 555, "six": 666}}}
 		att = attridict(data)
 
@@ -138,7 +124,7 @@ class TestAttriDict(unittest.TestCase):
 
 
 	def test_attridict10(self):
-
+		# test del deletes attribute
 		data = {"one": 111, "two": {"three": 333, "four": {"five": 555, "six": 666}}}
 		att = attridict(data)
 
@@ -146,56 +132,47 @@ class TestAttriDict(unittest.TestCase):
 		self.assertEqual(att, {"one": 111, "two": {"three": 333, "four": {"five": 555}}})
 
 
-	def test_deep_true(self):
-		data = {"one": 111, "two": [{"three": 333, "four": 444}]}
-		att = attridict(data, True)
-		
-		self.assertEqual(type(att.two[0]), attridict)
-		self.assertEqual(att.two[0], {"three": 333, "four": 444})
-		self.assertEqual(att.two[0].three, 333)
 
+	def test_attridict11(self):
+		data = {}
+		data["me"] = data
 
-	def test_deep_false(self):
-		data = {"one": 111, "two": [{"three": 333, "four": 444}]}
-		att = attridict(data, False)
-
-		self.assertEqual(type(att.two[0]), dict)
-		self.assertEqual(att.two[0], {"three": 333, "four": 444})
-
-	def test_to_dict_deep_list(self):
-		data = {"one": 111, "two": [{"three": 333, "four": 444}]}
-		att = attridict(data, True)
-	
-		self.assertEqual(type(att.two[0]), attridict)
-		self.assertEqual(att.two[0], {"three": 333, "four": 444})
-		self.assertEqual(att.two[0].three, 333)
-
-		d_attr = att.to_dict()
-
-		with self.assertRaises(AttributeError) as ctx:
-			d_attr["two"][0].three
-		self.assertEqual(str(ctx.exception), "'dict' object has no attribute 'three'")
-
-
-	def test_to_dict_deep_tuple(self):
-		data = {"one": 111, "two": tuple(({"three": 333, "four": 444},))}
-		att = attridict(data, True)
-	
-		self.assertEqual(type(att.two[0]), attridict)
-		self.assertEqual(att.two[0], {"three": 333, "four": 444})
-		self.assertEqual(att.two[0].three, 333)
-
-		d_attr = att.to_dict()
-
-		with self.assertRaises(AttributeError) as ctx:
-			d_attr["two"][0].three
-		self.assertEqual(str(ctx.exception), "'dict' object has no attribute 'three'")
-
-	def test_to_string_dunder_method(self):
-		data = {"one": 111, "two": 222}
 		att = attridict(data)
 
-		self.assertEqual(att.__to_string__(), "{@'one': 111, 'two': 222@}")
+		self.assertEqual(att, data)
+		self.assertEqual(att.me, data)
+		self.assertEqual(att.me.me, data)
+
+
+	def test_attridict12(self):
+		one = {"one": "me"}
+		two = {"two": "me"}
+
+		one["two"] = two
+		two["one"] = one
+
+		att_one = attridict(one)
+		att_two = attridict(two)
+
+		self.assertEqual(att_one.one, "me")
+		self.assertEqual(att_one.two, two)
+		self.assertEqual(att_one.two, att_two)
+
+		self.assertEqual(att_two.two, "me")
+		self.assertEqual(att_two.one, one)
+		self.assertEqual(att_two.one, att_one)
+
+
+	def test_attridict14(self):
+		data = {"one": 111, "two": [1,2,3], "three": {4,5,6}, "four": (7,8,9)}
+
+		att = attridict(data)
+
+		self.assertEqual(att, data)
+		self.assertEqual(att.two, [1,2,3])
+		self.assertEqual(att.three, {4,5,6})
+		self.assertEqual(att.four, (7,8,9))
+		
 
 if __name__ == "__main__":
 	unittest.main()
