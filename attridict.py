@@ -34,8 +34,8 @@ class AttriDict(dict, AttriDictAttributes):
 	def __attrify(self, obj):
 		if isinstance(obj, dict):
 			obj = type(self)(obj)
-		elif (t:=type(obj)) in [list, set, tuple]:
-			obj = t(self.__attrify(i) for i in obj)
+		elif isinstance(obj, (list, set, tuple)):
+			obj = type(obj)(self.__attrify(i) for i in obj)
 		return obj
 
 	def __valid_key(self, word):
