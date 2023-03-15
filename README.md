@@ -81,11 +81,11 @@ Typical `dict` operations work on attridict objects
 ```python
 >>> import attridict
 
->>> data = {'red': 'hot', 'blue': 'cold'}
+>>> data = {'red': 'rose', 'blue': 'sky'}
 
 >>> colors = attridict(data)
 >>> colors
-{'red': 'hot', 'blue': 'cold'}
+{'red': 'rose', 'blue': 'sky'}
 
 >>> colors.red
 'rose'
