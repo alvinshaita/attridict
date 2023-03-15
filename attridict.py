@@ -8,11 +8,11 @@ __email__	= "alvinshaita@gmail.com"
 
 
 class AttriDictAttributes:
-	__version__ = "0.0.3"
+	__version__ = "0.0.4"
 
 class AttriDict(dict, AttriDictAttributes):
 	'''AttriDict'''
-	
+
 	def __init__(self, data = {}):
 		super(type(self), self).__init__(data)
 
