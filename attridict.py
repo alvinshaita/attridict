@@ -16,11 +16,11 @@ class AttriDict(dict):
 		super(type(self), self).__init__(data)
 
 	def __getattr__(self, key):
-		self[key] = self.__attrify(self[key])
+		self[key] = self._attrify(self[key])
 		return self[key]
 
 	def __setattr__(self, key, value):
-		if not self.__valid_key(key):
+		if not self._valid_key(key):
 			raise AttributeError(
 				"invalid key, '{key}'".format(key=key)
 			)
@@ -30,14 +30,14 @@ class AttriDict(dict):
 		del self[key]
 
 
-	def __attrify(self, obj):
+	def _attrify(self, obj):
 		if isinstance(obj, dict):
 			obj = type(self)(obj)
 		elif isinstance(obj, (list, set, tuple)):
-			obj = type(obj)(self.__attrify(i) for i in obj)
+			obj = type(obj)(self._attrify(i) for i in obj)
 		return obj
 
-	def __valid_key(self, word):
+	def _valid_key(self, word):
 		if word in dir(dict):
 			return False
 		return True
