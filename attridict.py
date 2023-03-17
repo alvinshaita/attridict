@@ -79,7 +79,7 @@ class AttriMapping():
 class AttriDict(dict, AttriMapping):
 	'''AttriDict'''
 
-	__version__ = "0.0.4"
+	__version__ = "0.0.5"
 
 	def __init__(self, *args):
 		if args and not isinstance(*args, dict):
