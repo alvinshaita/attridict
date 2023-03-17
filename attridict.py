@@ -29,6 +29,14 @@ class AttriDict(dict):
 	def __delattr__(self, key):
 		del self[key]
 
+	def __call__(self, key):
+		"""
+		Attribute fetch via object call
+		eg. att(key)
+		"""
+		self[key] = self._attrify(self[key])
+		return self[key]
+
 
 	def _attrify(self, obj):
 		if isinstance(obj, dict):
