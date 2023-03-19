@@ -173,6 +173,7 @@ class TestAttriDict(unittest.TestCase):
 		self.assertEqual(att.three, {4,5,6})
 		self.assertEqual(att.four, (7,8,9))
 
+
 	def test_call(self):
 		# test object call with key argument returns corresponding value
 		data = {"one": 111, "two": {"three": 333}}
@@ -182,6 +183,7 @@ class TestAttriDict(unittest.TestCase):
 		self.assertEqual(att("one"), 111)
 		self.assertEqual(att("two"), {"three": 333})
 		self.assertEqual(att.two("three"), 333)
+
 
 	def test_add(self):
 		# test adding dict object and attridict object together
@@ -194,6 +196,21 @@ class TestAttriDict(unittest.TestCase):
 		self.assertEqual(att1 + data2, {"one": 111, "two": 222, "three": 333, "four": 444})
 		self.assertEqual(data1 + att2, {"one": 111, "two": 222, "three": 333, "four": 444})
 		self.assertEqual(att1 + att2, {"one": 111, "two": 222, "three": 333, "four": 444})
+
+
+	def test_kwargs(self):
+		data = {"one": 111, "two": 222}
+
+		att = attridict(data, three=333, four=444)
+		self.assertEqual(att, {"one":111, "two":222, "three": 333, "four": 444})
+
+
+	def test_kwargs_overwrite(self):
+		# test keyword argument overwrites original argument
+		data = {"one": 111, "two": 222}
+
+		att = attridict(data, two=333)
+		self.assertEqual(att, {"one": 111, "two": 333})
 
 
 if __name__ == "__main__":
