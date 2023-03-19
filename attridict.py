@@ -11,7 +11,7 @@ from mapping import Mapping
 class AttriDict(dict, Mapping):
 	'''AttriDict'''
 
-	__version__ = "0.0.5"
+	__version__ = "0.0.6"
 
 	def __init__(self, *args, **kwargs):
 		if args and not isinstance(*args, dict):

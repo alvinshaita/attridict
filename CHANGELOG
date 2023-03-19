@@ -3,3 +3,4 @@ v0.0.2	Convert dict to attridict, and attridict to dict, deep
 v0.0.3  Include setup classifiers
 v0.0.4  Fix self reference bug
 v0.0.5  Supports addition of attridict objects and dict instances
+v0.0.6  Accept keyword arguments, create Mapping class
