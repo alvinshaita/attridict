@@ -98,5 +98,25 @@ Typical `dict` operations work on attridict objects
 >>> colors.red
 'tomato'
 ```
+<br/>
+
+Nested attribute access
+```python
+>>> import attridict
+
+>>> data = {'foo': {}}
+>>> att = attridict(data)
+
+>>> att
+{'foo': {}}
+
+>>> att.foo.bar = 'baz'
+
+>>> att.foo.bar
+'baz'
+
+>>> att
+{'foo': {'bar': 'baz'}}
+```
 ## License
 The project is MIT licensed
