@@ -13,13 +13,13 @@ class AttriDict(dict, Mapping):
 
 	__version__ = "0.0.5"
 
-	def __init__(self, *args):
+	def __init__(self, *args, **kwargs):
 		if args and not isinstance(*args, dict):
 			raise AttributeError(
 				"non dict argument provided"
 			)
 
-		super(type(self), self).__init__(*args)
+		super(type(self), self).__init__(*args, **kwargs)
 
 	def _attrify(self, obj):
 		"""
