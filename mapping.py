@@ -23,6 +23,11 @@ class Mapping():
 				"invalid key, '{key}'".format(key=key)
 			)
 
+		if key not in self:
+			raise AttributeError(
+				"key does not exist, '{key}'".format(key=key)
+			)
+
 		obj = self[key]
 		return self._attrify(obj)
 

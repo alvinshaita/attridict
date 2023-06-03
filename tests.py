@@ -213,5 +213,15 @@ class TestAttriDict(unittest.TestCase):
 		self.assertEqual(att, {"one": 111, "two": 333})
 
 
+	def test_getattr(self):
+		# test getattr function returns expected output
+		data = {"one": 111, "two": 222}
+		att = attridict(data)
+
+		self.assertEqual(getattr(att, "one"), 111)
+		self.assertEqual(getattr(att, "one", 333), 111)
+		self.assertEqual(getattr(att, "three", 333), 333)
+
+
 if __name__ == "__main__":
 	unittest.main()
