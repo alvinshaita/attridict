@@ -6,12 +6,17 @@
 __author__	= "Alvin Shaita"
 __email__	= "alvinshaita@gmail.com"
 
-from mapping import Mapping
+from mixins import MapMixin
 
-class AttriDict(dict, Mapping):
+__all__ = ["AttriDict"]
+
+
+class AttriDict(dict, MapMixin):
 	'''AttriDict'''
 
 	__version__ = "0.0.6"
+
+	__all__ = ["to_dict"]
 
 	def __init__(self, *args, **kwargs):
 		if args and not isinstance(*args, dict):
@@ -46,7 +51,7 @@ class AttriDict(dict, Mapping):
 		Return a dict equivalent of the attridict object
 		"""
 		return dict(self)
-	
+
 
 
 if __name__ == "attridict":

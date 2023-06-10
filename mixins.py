@@ -11,7 +11,9 @@ def assign_self(func):
 	return wrapper
 
 
-class Mapping():
+__all__ = ["MapMixin"]
+
+class MapMixin():
 
 	@assign_self
 	def __getattr__(self, key):
