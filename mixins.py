@@ -1,7 +1,8 @@
+from abc import ABC, abstractmethod
 
 def assign_self(func):
 	"""
-	Set a new received object as the value to the key in the mapping container
+	Set the received object the value of the key in the mapping container
 	"""
 	def wrapper(container, key):
 		new_object = func(container, key)
@@ -13,7 +14,25 @@ def assign_self(func):
 
 __all__ = ["MapMixin"]
 
-class MapMixin():
+class MapMixin(ABC):
+
+	@abstractmethod
+	def _valid_key(self, key):
+		pass
+
+	@abstractmethod
+	def _attrify(self, key):
+		pass
+
+
+	@assign_self
+	def __call__(self, key):
+		"""
+		Access value through object call
+			eg. att(key)
+		"""
+		obj = self[key]
+		return self._attrify(obj)
 
 	@assign_self
 	def __getattr__(self, key):
@@ -44,34 +63,24 @@ class MapMixin():
 	def __delattr__(self, key):
 		del self[key]
 
-	@assign_self
-	def __call__(self, key):
-		"""
-		Fetch value via object call
-		eg. att(key)
-		"""
-		obj = self[key]
-		return self._attrify(obj)
-
-
 	def __add__(self, other):
 		"""
-		Add a dict object, or its child object to an attridict object
+		Add a dict, or its child to an attridict object
 		"""
 		if not isinstance(other, dict):
-			raise AttributeError(
-				"'{other}' is not a mapping".format(other=other)
+			raise TypeError(
+				"'{other}' is not a mapping object".format(other=other)
 			)
 
 		return type(self)({**self, **other})
 
 	def __radd__(self, other):
 		"""
-		Add an attridict object to a dict object, or its child object
+		Add an attridict object to a dict, or its child
 		"""
 		if not isinstance(other, dict):
-			raise AttributeError(
-				"'{other}' is not a mapping".format(other=other)
+			raise TypeError(
+				"'{other}' is not a mapping object".format(other=other)
 			)
 
 		return type(self)({**other, **self})
