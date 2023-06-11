@@ -8,13 +8,13 @@ __email__	= "alvinshaita@gmail.com"
 
 from mixins import MapMixin
 
-__all__ = ["AttriDict"]
 
+__all__ = ["AttriDict"]
 
 class AttriDict(dict, MapMixin):
 	'''AttriDict'''
 
-	__version__ = "0.0.6"
+	__version__ = "0.0.7"
 
 	__all__ = ["to_dict"]
 
