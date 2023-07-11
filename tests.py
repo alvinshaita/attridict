@@ -10,6 +10,16 @@ import attridict
 
 
 class TestAttriDict(unittest.TestCase):
+
+    def test_import_class(self):
+        from attridict import AttriDict
+        att = AttriDict()
+        self.assertEqual(att, {})
+
+        att.one = 111
+        self.assertEqual(att.one, 111)
+        self.assertEqual(att, {"one": 111})
+
     def test_attridict(self):
         # test growth through assignment
         att = attridict()
@@ -205,12 +215,18 @@ class TestAttriDict(unittest.TestCase):
         self.assertEqual(getattr(att, "one", 333), 111)
         self.assertEqual(getattr(att, "three", 333), 333)
 
-    def test_picklable(self):
+    def test_pickable(self):
         import pickle
+        from attridict import AttriDict
         data = {"one": 111, "two": 222}
         att = attridict(data)
         picked = pickle.dumps(att)
 
+        unpicked = pickle.loads(picked)
+        self.assertEqual(att, unpicked)
+
+        att = AttriDict(data)
+        picked = pickle.dumps(att)
         unpicked = pickle.loads(picked)
         self.assertEqual(att, unpicked)
 

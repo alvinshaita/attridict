@@ -16,14 +16,12 @@ pip install attridict
 ```
 
 
-
-
 ## Usage
 
 Creating an attridict object
 ```python
->>> import attridict
->>> att = attridict()
+>>> from attridict import AttriDict
+>>> att = AttriDict()
 >>> att
 {}
 >>> att.foo = "bar"
@@ -32,15 +30,24 @@ Creating an attridict object
 >>> att
 {'foo': 'bar'}
 ```
-<br/>
+
+For backward compatibility, the project old import style is still usable.
+
+```
+>>> import attridict
+>>> att = attridict()
+>>> att
+{}
+```
+
 
 A dict can be converted into an attridict object by passing it as an argument
 ```python
->>> import attridict
+>>> from attridict import AttriDict
 
 >>> data = {'red': 'hot', 'blue': 'cold'}
 
->>> colors = attridict(data)
+>>> colors = AttriDict(data)
 >>> colors
 {'red': 'hot', 'blue': 'cold'}
 
@@ -51,11 +58,11 @@ A dict can be converted into an attridict object by passing it as an argument
 
 Modifying attridict object
 ```python
->>> import attridict
+>>> from attridict import AttriDict
 
 >>> data = {'red': 'hot', 'blue': 'cold'}
 
->>> colors = attridict(data)
+>>> colors = AttriDict(data)
 >>> colors
 {'red': 'hot', 'blue': 'cold'}
 
@@ -79,11 +86,11 @@ Modifying attridict object
 
 Typical `dict` operations work on attridict objects
 ```python
->>> import attridict
+>>> from attridict import AttriDict
 
 >>> data = {'red': 'rose', 'blue': 'sky'}
 
->>> colors = attridict(data)
+>>> colors = AttriDict(data)
 >>> colors
 {'red': 'rose', 'blue': 'sky'}
 
@@ -102,10 +109,10 @@ Typical `dict` operations work on attridict objects
 
 Nested attribute access
 ```python
->>> import attridict
+>>> from attridict import AttriDict
 
 >>> data = {'foo': {}}
->>> att = attridict(data)
+>>> att = AttriDict(data)
 
 >>> att
 {'foo': {}}

@@ -10,12 +10,12 @@ import types
 from mixins import MapMixin
 
 
-class AttriDict(types.ModuleType):
+class _AttriDict(types.ModuleType):
     def __call__(self, *args, **kwargs):
-        return _AttriDict(*args, **kwargs)
+        return AttriDict(*args, **kwargs)
 
 
-class _AttriDict(dict, MapMixin):
+class AttriDict(dict, MapMixin):
     """AttriDict"""
 
     __version__ = "0.0.7"
@@ -59,4 +59,4 @@ class _AttriDict(dict, MapMixin):
 if __name__ == "attridict":
     import sys
 
-    sys.modules[__name__].__class__ = AttriDict
+    sys.modules[__name__].__class__ = _AttriDict
