@@ -5,9 +5,12 @@
 
 __author__ = "Alvin Shaita"
 __email__ = "alvinshaita@gmail.com"
+__version__ = "0.0.7"
 
 import types
 from mixins import MapMixin
+
+__all__ = ["AttriDict"]
 
 
 class _AttriDict(types.ModuleType):
@@ -17,10 +20,6 @@ class _AttriDict(types.ModuleType):
 
 class AttriDict(dict, MapMixin):
     """AttriDict"""
-
-    __version__ = "0.0.7"
-
-    __all__ = ["to_dict"]
 
     def __init__(self, *args, **kwargs):
         if args and not isinstance(*args, dict):
