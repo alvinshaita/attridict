@@ -108,6 +108,7 @@ class TestAttriDict(unittest.TestCase):
 		att.two = 222
 		self.assertNotEqual(att, att_copy)
 		self.assertEqual(att_copy, data)
+		self.assertEqual(att_copy.two, {"three": 333, "four": {"five": 555, "six": 666}})
 
 
 	def test_to_dict(self):

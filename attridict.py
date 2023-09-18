@@ -52,6 +52,9 @@ class AttriDict(dict, MapMixin):
 		"""
 		return dict(self)
 
+	def copy(self):
+		new_instance = type(self)(self)
+		return new_instance
 
 
 if __name__ == "attridict":
