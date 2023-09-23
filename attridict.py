@@ -14,7 +14,7 @@ __all__ = ["AttriDict"]
 class AttriDict(dict, MapMixin):
 	'''AttriDict'''
 
-	__version__ = "0.0.7"
+	__version__ = "0.0.8"
 
 	__all__ = ["to_dict"]
 
