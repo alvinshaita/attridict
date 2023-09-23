@@ -58,4 +58,5 @@ class AttriDict(dict, MapMixin):
 
 if __name__ == "attridict":
 	import sys
+	AttriDict.AttriDict = AttriDict
 	sys.modules[__name__] = AttriDict

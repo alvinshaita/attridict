@@ -224,5 +224,19 @@ class TestAttriDict(unittest.TestCase):
 		self.assertEqual(getattr(att, "three", 333), 333)
 
 
+	def test_pickle(self):
+		# test that the object can be pickled
+		import pickle
+		data = {"one": 111, "two": 222}
+		att = attridict(data)
+
+		try:
+			pickled_att = pickle.dumps(att)
+			unpickled_att = pickle.loads(pickled_att)
+			self.assertEqual(att, unpickled_att)
+		except Exception as e:
+			self.fail(e)
+
+
 if __name__ == "__main__":
 	unittest.main()
