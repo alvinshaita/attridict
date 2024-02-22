@@ -17,6 +17,7 @@ setup(
 	url="https://github.com/alvinshaita/attridict",
 	license="MIT License",
 	packages=["."],
+	install_requires=["PyYAML==6.0.1"],
 	keywords="attridict, attrdict, struct, dict, dot, attribute, attributes, dictionary, attr, object",
 	description="A dict implementation with support for easy and clean access of its values through attributes",
 	long_description=long_description,
