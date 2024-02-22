@@ -238,5 +238,38 @@ class TestAttriDict(unittest.TestCase):
 			self.fail(e)
 
 
+	def test_yaml_serialization(self):
+		# test that an attridict object can be serialized with yaml
+		import yaml
+
+		data = {"one": 111, "two": 222}
+		att = attridict(data)
+
+		try:
+			yaml_serialized_att = yaml.dump(att)
+			yaml_att = yaml.load(yaml_serialized_att, Loader=yaml.FullLoader)
+			
+			self.assertEqual(att, yaml_att)
+			self.assertEqual(type(att), type(yaml_att))
+		except Exception as e:
+			self.fail(e)
+
+
+	def test_yaml_safe_serialization(self):
+		# test that an attridict object can be safely serialized with yaml
+		import yaml
+
+		data = {"one": 111, "two": 222}
+		att = attridict(data)
+
+		try:
+			yaml_serialized_att = yaml.safe_dump(att)
+			yaml_att = yaml.safe_load(yaml_serialized_att)
+
+			self.assertEqual(data, yaml_att)
+			self.assertEqual(type(data), type(yaml_att))
+		except Exception as e:
+			self.fail(e)
+
 if __name__ == "__main__":
 	unittest.main()
