@@ -3,3 +3,4 @@ dist
 notes
 __pycache__
 *.pyc
+env
