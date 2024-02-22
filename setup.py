@@ -17,16 +17,15 @@ setup(
 	url="https://github.com/alvinshaita/attridict",
 	license="MIT License",
 	packages=["."],
-	keywords="attridict, attrdict, struct, dict, dot, attribute, attributes, dictionary, attr",
+	keywords="attridict, attrdict, struct, dict, dot, attribute, attributes, dictionary, attr, object",
 	description="A dict implementation with support for easy and clean access of its values through attributes",
 	long_description=long_description,
 	long_description_content_type='text/markdown',
 	classifiers=[
 		"Intended Audience :: Developers",
 		"License :: OSI Approved :: MIT License",
-		"Programming Language :: Python :: 2",
-        	"Programming Language :: Python :: 3",
-        	"Programming Language :: Python :: Implementation :: CPython",
-        	"Programming Language :: Python :: Implementation :: PyPy",
+    	"Programming Language :: Python :: 3",
+    	"Programming Language :: Python :: Implementation :: CPython",
+    	"Programming Language :: Python :: Implementation :: PyPy",
 	]
 )
