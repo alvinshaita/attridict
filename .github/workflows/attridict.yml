@@ -34,7 +34,7 @@ jobs:
   deploy:
     needs: test
     runs-on: ubuntu-latest
-    if: github.event_name == 'release' && github.event.action == 'created'
+    if: github.event_name == 'release'
 
     steps:
     - name: Build project
