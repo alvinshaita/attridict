@@ -118,5 +118,22 @@ Nested attribute access
 >>> att
 {'foo': {'bar': 'baz'}}
 ```
+<br/>
+
+YAML serializable
+```python
+>>> import attridict
+>>> import yaml
+
+>>> data = {'foo': {'bar': 'baz'}}
+
+>>> att = attridict(data)
+
+>>> yaml.dump(att)
+'!attridict\nfoo:\n  bar: baz\n'
+
+>>> yaml.safe_dump(att)
+'foo:\n  bar: baz\n'
+```
 ## License
 The project is MIT licensed
