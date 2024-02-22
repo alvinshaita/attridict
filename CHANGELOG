@@ -6,3 +6,4 @@ v0.0.5  Supports addition of attridict objects and dict instances
 v0.0.6  Accept keyword arguments, create Mapping class
 v0.0.7  Raise inbuilt python errors for better compatibility
 v0.0.8  Fix copy() and make attridict object picklable
+v0.0.9  Make attridict yaml serializable
