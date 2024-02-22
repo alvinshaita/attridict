@@ -7,8 +7,6 @@ __author__	= "Alvin Shaita"
 __email__	= "alvinshaita@gmail.com"
 
 
-import yaml
-
 from mixins import MapMixin
 
 
@@ -61,28 +59,33 @@ class AttriDict(dict, MapMixin):
 
 
 
-# yaml serialization
-def represent_attridict(dumper, data):
-	return dumper.represent_mapping("!attridict", data)
+try:
+	import yaml
 
-yaml.representer.Representer.add_representer(AttriDict, represent_attridict)
+	# yaml serialization
+	def represent_attridict(dumper, data):
+		return dumper.represent_mapping("!attridict", data)
 
-
-def represent_attridict_safe(dumper, data):
-	return dumper.represent_dict(data)
-
-yaml.representer.SafeRepresenter.add_representer(AttriDict, represent_attridict_safe)
+	yaml.representer.Representer.add_representer(AttriDict, represent_attridict)
 
 
-def construct_attridict(loader, node):
-	value = loader.construct_mapping(node)
-	return AttriDict(value)
+	def represent_attridict_safe(dumper, data):
+		return dumper.represent_dict(data)
 
-yaml.add_constructor("!attridict", construct_attridict, Loader=yaml.BaseLoader)
-yaml.add_constructor("!attridict", construct_attridict, Loader=yaml.FullLoader)
-yaml.add_constructor("!attridict", construct_attridict, Loader=yaml.SafeLoader)
-yaml.add_constructor("!attridict", construct_attridict, Loader=yaml.Loader)
-yaml.add_constructor("!attridict", construct_attridict, Loader=yaml.UnsafeLoader)
+	yaml.representer.SafeRepresenter.add_representer(AttriDict, represent_attridict_safe)
+
+
+	def construct_attridict(loader, node):
+		value = loader.construct_mapping(node)
+		return AttriDict(value)
+
+	yaml.add_constructor("!attridict", construct_attridict, Loader=yaml.BaseLoader)
+	yaml.add_constructor("!attridict", construct_attridict, Loader=yaml.FullLoader)
+	yaml.add_constructor("!attridict", construct_attridict, Loader=yaml.SafeLoader)
+	yaml.add_constructor("!attridict", construct_attridict, Loader=yaml.Loader)
+	yaml.add_constructor("!attridict", construct_attridict, Loader=yaml.UnsafeLoader)
+except Exception as e:
+	...
 
 
 
