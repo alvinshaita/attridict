@@ -10,266 +10,266 @@ import attridict
 
 
 class TestAttriDict(unittest.TestCase):
-	def test_attridict(self):
-		# test growth through assignment
-		att = attridict()
-		self.assertEqual(att, {})
+    def test_attridict(self):
+        # test growth through assignment
+        att = attridict()
+        self.assertEqual(att, {})
 
-		att.one = 111
-		self.assertEqual(att.one, 111)
-		self.assertEqual(att, {"one": 111})
+        att.one = 111
+        self.assertEqual(att.one, 111)
+        self.assertEqual(att, {"one": 111})
 
-		att.two = {"three": 333}
-		self.assertEqual(att.two, {"three": 333})
-		self.assertEqual(att, {"one": 111, "two": {"three": 333}})
+        att.two = {"three": 333}
+        self.assertEqual(att.two, {"three": 333})
+        self.assertEqual(att, {"one": 111, "two": {"three": 333}})
 
-		att.two.four = {"five": 555, "six": 666}
-		self.assertEqual(att.two.four.five, 555)
-		self.assertEqual(att.two.four.six, 666)
+        att.two.four = {"five": 555, "six": 666}
+        self.assertEqual(att.two.four.five, 555)
+        self.assertEqual(att.two.four.six, 666)
 
-		self.assertEqual(att, {"one": 111, "two": {"three": 333, "four": {"five": 555, "six": 666}}})
+        self.assertEqual(att, {"one": 111, "two": {"three": 333, "four": {"five": 555, "six": 666}}})
 
 
-	def test_attridict2(self):
-		# test conversion from dict
-		data = {"one": 111, "two": {"three": 333, "four": {"five": 555, "six": 666}}}
-		att = attridict(data)
+    def test_attridict2(self):
+        # test conversion from dict
+        data = {"one": 111, "two": {"three": 333, "four": {"five": 555, "six": 666}}}
+        att = attridict(data)
 
-		self.assertEqual(att.one, 111)
-		self.assertEqual(att.two, {"three": 333, "four": {"five": 555, "six": 666}})
-		self.assertEqual(att.two.three, 333)
-		self.assertEqual(att.two.four, {"five": 555, "six": 666})
-		self.assertEqual(att.two.four.five, 555)
-		self.assertEqual(att.two.four.six, 666)
+        self.assertEqual(att.one, 111)
+        self.assertEqual(att.two, {"three": 333, "four": {"five": 555, "six": 666}})
+        self.assertEqual(att.two.three, 333)
+        self.assertEqual(att.two.four, {"five": 555, "six": 666})
+        self.assertEqual(att.two.four.five, 555)
+        self.assertEqual(att.two.four.six, 666)
 
-		# test reassignment of assigned values
-		att.two = 222
-		self.assertEqual(att.two, 222)
+        # test reassignment of assigned values
+        att.two = 222
+        self.assertEqual(att.two, 222)
 
-		att.three = {"four": 444, "five": 555}
-		self.assertEqual(att.three, {"four": 444, "five": 555})
-		self.assertEqual(att, {"one": 111, "two": 222, "three": {"four": 444, "five": 555}})
+        att.three = {"four": 444, "five": 555}
+        self.assertEqual(att.three, {"four": 444, "five": 555})
+        self.assertEqual(att, {"one": 111, "two": 222, "three": {"four": 444, "five": 555}})
 
 
-	def test_attridict3(self):
-		# test value conservativity of converted dict
-		data = {"one": 111, "two": {"three": 333, "four": {"five": 555, "six": 666}}}
-		att = attridict(data)
+    def test_attridict3(self):
+        # test value conservativity of converted dict
+        data = {"one": 111, "two": {"three": 333, "four": {"five": 555, "six": 666}}}
+        att = attridict(data)
 
-		self.assertEqual(att, data)
-		self.assertEqual(att.one, data["one"])
-		self.assertEqual(att.two, data["two"])
-		self.assertEqual(att.two.three, data["two"]["three"])
-		self.assertEqual(att.two.four, data["two"]["four"])
-		self.assertEqual(att.two.four.five, data["two"]["four"]["five"])
-		self.assertEqual(att.two.four.six, data["two"]['four']["six"])
+        self.assertEqual(att, data)
+        self.assertEqual(att.one, data["one"])
+        self.assertEqual(att.two, data["two"])
+        self.assertEqual(att.two.three, data["two"]["three"])
+        self.assertEqual(att.two.four, data["two"]["four"])
+        self.assertEqual(att.two.four.five, data["two"]["four"]["five"])
+        self.assertEqual(att.two.four.six, data["two"]['four']["six"])
 
 
-	def test_attridict5(self):
-		data = {"one": 111, "two": {"three": 333, "four": {"five": 555, "six": 666}}}
-		att = attridict(data)
-		att.three = {"four": 444, "five": 565}
+    def test_attridict5(self):
+        data = {"one": 111, "two": {"three": 333, "four": {"five": 555, "six": 666}}}
+        att = attridict(data)
+        att.three = {"four": 444, "five": 565}
 
-		del att
+        del att
 
-		data = {"one": 111, "two": {"three": 333, "four": {"five": 555, "six": 666}}}
-		att = attridict(data)
+        data = {"one": 111, "two": {"three": 333, "four": {"five": 555, "six": 666}}}
+        att = attridict(data)
 
-		self.assertEqual(data.__len__(), att.__len__())
-		self.assertEqual(data["two"].__len__(), att.two.__len__())
-		self.assertEqual(data["two"]["four"].__len__(), att.two.four.__len__())
+        self.assertEqual(data.__len__(), att.__len__())
+        self.assertEqual(data["two"].__len__(), att.two.__len__())
+        self.assertEqual(data["two"]["four"].__len__(), att.two.four.__len__())
 
 
-	def test_attridict6(self):
-		# test equality of attridict and initialized dict
-		data = {"one": 111, "two": {"three": 333, "four": {"five": 555, "six": 666}}}
-		att = attridict(data)
-		self.assertEqual(att, data)
+    def test_attridict6(self):
+        # test equality of attridict and initialized dict
+        data = {"one": 111, "two": {"three": 333, "four": {"five": 555, "six": 666}}}
+        att = attridict(data)
+        self.assertEqual(att, data)
 
 
-	def test_mutable(self):
-		# test mutability of an attridict object
-		data = {"one": 111, "two": {"three": 333, "four": {"five": 555, "six": 666}}}
-		att = attridict(data)
-		att_mutable = att
-		att.two = 222
-		self.assertEqual(att, att_mutable)
-		self.assertIs(att, att_mutable)
+    def test_mutable(self):
+        # test mutability of an attridict object
+        data = {"one": 111, "two": {"three": 333, "four": {"five": 555, "six": 666}}}
+        att = attridict(data)
+        att_mutable = att
+        att.two = 222
+        self.assertEqual(att, att_mutable)
+        self.assertIs(att, att_mutable)
 
 
-	def test_copy(self):
-		# test attridict copy is not equal to original
-		data = {"one": 111, "two": {"three": 333, "four": {"five": 555, "six": 666}}}
-		att = attridict(data)
-		att_copy = att.copy()
-		
-		self.assertIsNot(att, att_copy)
+    def test_copy(self):
+        # test attridict copy is not equal to original
+        data = {"one": 111, "two": {"three": 333, "four": {"five": 555, "six": 666}}}
+        att = attridict(data)
+        att_copy = att.copy()
+        
+        self.assertIsNot(att, att_copy)
 
-		att.two = 222
-		self.assertNotEqual(att, att_copy)
-		self.assertEqual(att_copy, data)
-		self.assertEqual(att_copy.two, {"three": 333, "four": {"five": 555, "six": 666}})
+        att.two = 222
+        self.assertNotEqual(att, att_copy)
+        self.assertEqual(att_copy, data)
+        self.assertEqual(att_copy.two, {"three": 333, "four": {"five": 555, "six": 666}})
 
 
-	def test_to_dict(self):
-		# test to_dict() returns dict
-		data = {"one": 111, "two": {"three": 333, "four": {"five": 555, "six": 666}}}
-		att = attridict(data)
+    def test_to_dict(self):
+        # test to_dict() returns dict
+        data = {"one": 111, "two": {"three": 333, "four": {"five": 555, "six": 666}}}
+        att = attridict(data)
 
-		att_dict = att.to_dict()
-		self.assertEqual(data, att_dict)
+        att_dict = att.to_dict()
+        self.assertEqual(data, att_dict)
 
-		self.assertEqual(type(att_dict), dict)
-		self.assertEqual(type(att_dict["two"]), dict)
-		self.assertEqual(type(att_dict["two"]["four"]), dict)
+        self.assertEqual(type(att_dict), dict)
+        self.assertEqual(type(att_dict["two"]), dict)
+        self.assertEqual(type(att_dict["two"]["four"]), dict)
 
 
-	def test_attridict10(self):
-		# test del deletes attribute
-		data = {"one": 111, "two": {"three": 333, "four": {"five": 555, "six": 666}}}
-		att = attridict(data)
+    def test_attridict10(self):
+        # test del deletes attribute
+        data = {"one": 111, "two": {"three": 333, "four": {"five": 555, "six": 666}}}
+        att = attridict(data)
 
-		del att.two.four.six
-		self.assertEqual(att, {"one": 111, "two": {"three": 333, "four": {"five": 555}}})
+        del att.two.four.six
+        self.assertEqual(att, {"one": 111, "two": {"three": 333, "four": {"five": 555}}})
 
 
 
-	def test_attridict11(self):
-		data = {}
-		data["me"] = data
+    def test_attridict11(self):
+        data = {}
+        data["me"] = data
 
-		att = attridict(data)
+        att = attridict(data)
 
-		self.assertEqual(att, data)
-		self.assertEqual(att.me, data)
-		self.assertEqual(att.me.me, data)
+        self.assertEqual(att, data)
+        self.assertEqual(att.me, data)
+        self.assertEqual(att.me.me, data)
 
 
-	def test_attridict12(self):
-		one = {"one": "me"}
-		two = {"two": "me"}
+    def test_attridict12(self):
+        one = {"one": "me"}
+        two = {"two": "me"}
 
-		one["two"] = two
-		two["one"] = one
+        one["two"] = two
+        two["one"] = one
 
-		att_one = attridict(one)
-		att_two = attridict(two)
+        att_one = attridict(one)
+        att_two = attridict(two)
 
-		self.assertEqual(att_one.one, "me")
-		self.assertEqual(att_one.two, two)
-		self.assertEqual(att_one.two, att_two)
+        self.assertEqual(att_one.one, "me")
+        self.assertEqual(att_one.two, two)
+        self.assertEqual(att_one.two, att_two)
 
-		self.assertEqual(att_two.two, "me")
-		self.assertEqual(att_two.one, one)
-		self.assertEqual(att_two.one, att_one)
+        self.assertEqual(att_two.two, "me")
+        self.assertEqual(att_two.one, one)
+        self.assertEqual(att_two.one, att_one)
 
 
-	def test_attridict14(self):
-		data = {"one": 111, "two": [1,2,3], "three": {4,5,6}, "four": (7,8,9)}
+    def test_attridict14(self):
+        data = {"one": 111, "two": [1,2,3], "three": {4,5,6}, "four": (7,8,9)}
 
-		att = attridict(data)
+        att = attridict(data)
 
-		self.assertEqual(att, data)
-		self.assertEqual(att.two, [1,2,3])
-		self.assertEqual(att.three, {4,5,6})
-		self.assertEqual(att.four, (7,8,9))
+        self.assertEqual(att, data)
+        self.assertEqual(att.two, [1,2,3])
+        self.assertEqual(att.three, {4,5,6})
+        self.assertEqual(att.four, (7,8,9))
 
 
-	def test_call(self):
-		# test object call with key argument returns corresponding value
-		data = {"one": 111, "two": {"three": 333}}
+    def test_call(self):
+        # test object call with key argument returns corresponding value
+        data = {"one": 111, "two": {"three": 333}}
 
-		att = attridict(data)
+        att = attridict(data)
 
-		self.assertEqual(att("one"), 111)
-		self.assertEqual(att("two"), {"three": 333})
-		self.assertEqual(att.two("three"), 333)
+        self.assertEqual(att("one"), 111)
+        self.assertEqual(att("two"), {"three": 333})
+        self.assertEqual(att.two("three"), 333)
 
 
-	def test_add(self):
-		# test adding dict object and attridict object together
-		data1 = {"one": 111, "two": 222}
-		att1 = attridict(data1)
+    def test_add(self):
+        # test adding dict object and attridict object together
+        data1 = {"one": 111, "two": 222}
+        att1 = attridict(data1)
 
-		data2 = {"three": 333, "four": 444}
-		att2 = attridict(data2)
-		
-		self.assertEqual(att1 + data2, {"one": 111, "two": 222, "three": 333, "four": 444})
-		self.assertEqual(data1 + att2, {"one": 111, "two": 222, "three": 333, "four": 444})
-		self.assertEqual(att1 + att2, {"one": 111, "two": 222, "three": 333, "four": 444})
+        data2 = {"three": 333, "four": 444}
+        att2 = attridict(data2)
+        
+        self.assertEqual(att1 + data2, {"one": 111, "two": 222, "three": 333, "four": 444})
+        self.assertEqual(data1 + att2, {"one": 111, "two": 222, "three": 333, "four": 444})
+        self.assertEqual(att1 + att2, {"one": 111, "two": 222, "three": 333, "four": 444})
 
 
-	def test_kwargs(self):
-		data = {"one": 111, "two": 222}
+    def test_kwargs(self):
+        data = {"one": 111, "two": 222}
 
-		att = attridict(data, three=333, four=444)
-		self.assertEqual(att, {"one":111, "two":222, "three": 333, "four": 444})
+        att = attridict(data, three=333, four=444)
+        self.assertEqual(att, {"one":111, "two":222, "three": 333, "four": 444})
 
 
-	def test_kwargs_overwrite(self):
-		# test keyword argument overwrites original argument
-		data = {"one": 111, "two": 222}
+    def test_kwargs_overwrite(self):
+        # test keyword argument overwrites original argument
+        data = {"one": 111, "two": 222}
 
-		att = attridict(data, two=333)
-		self.assertEqual(att, {"one": 111, "two": 333})
+        att = attridict(data, two=333)
+        self.assertEqual(att, {"one": 111, "two": 333})
 
 
-	def test_getattr(self):
-		# test getattr function returns expected output
-		data = {"one": 111, "two": 222}
-		att = attridict(data)
+    def test_getattr(self):
+        # test getattr function returns expected output
+        data = {"one": 111, "two": 222}
+        att = attridict(data)
 
-		self.assertEqual(getattr(att, "one"), 111)
-		self.assertEqual(getattr(att, "one", 333), 111)
-		self.assertEqual(getattr(att, "three", 333), 333)
+        self.assertEqual(getattr(att, "one"), 111)
+        self.assertEqual(getattr(att, "one", 333), 111)
+        self.assertEqual(getattr(att, "three", 333), 333)
 
 
-	def test_pickle(self):
-		# test that the object can be pickled
-		import pickle
-		data = {"one": 111, "two": 222}
-		att = attridict(data)
+    def test_pickle(self):
+        # test that the object can be pickled
+        import pickle
+        data = {"one": 111, "two": 222}
+        att = attridict(data)
 
-		try:
-			pickled_att = pickle.dumps(att)
-			unpickled_att = pickle.loads(pickled_att)
-			self.assertEqual(att, unpickled_att)
-		except Exception as e:
-			self.fail(e)
+        try:
+            pickled_att = pickle.dumps(att)
+            unpickled_att = pickle.loads(pickled_att)
+            self.assertEqual(att, unpickled_att)
+        except Exception as e:
+            self.fail(e)
 
 
-	def test_yaml_serialization(self):
-		# test that an attridict object can be serialized with yaml
-		import yaml
+    def test_yaml_serialization(self):
+        # test that an attridict object can be serialized with yaml
+        import yaml
 
-		data = {"one": 111, "two": 222}
-		att = attridict(data)
+        data = {"one": 111, "two": 222}
+        att = attridict(data)
 
-		try:
-			yaml_serialized_att = yaml.dump(att)
-			yaml_att = yaml.load(yaml_serialized_att, Loader=yaml.FullLoader)
-			
-			self.assertEqual(att, yaml_att)
-			self.assertEqual(type(att), type(yaml_att))
-		except Exception as e:
-			self.fail(e)
+        try:
+            yaml_serialized_att = yaml.dump(att)
+            yaml_att = yaml.load(yaml_serialized_att, Loader=yaml.FullLoader)
+            
+            self.assertEqual(att, yaml_att)
+            self.assertEqual(type(att), type(yaml_att))
+        except Exception as e:
+            self.fail(e)
 
 
-	def test_yaml_safe_serialization(self):
-		# test that an attridict object can be safely serialized with yaml
-		import yaml
+    def test_yaml_safe_serialization(self):
+        # test that an attridict object can be safely serialized with yaml
+        import yaml
 
-		data = {"one": 111, "two": 222}
-		att = attridict(data)
+        data = {"one": 111, "two": 222}
+        att = attridict(data)
 
-		try:
-			yaml_serialized_att = yaml.safe_dump(att)
-			yaml_att = yaml.safe_load(yaml_serialized_att)
+        try:
+            yaml_serialized_att = yaml.safe_dump(att)
+            yaml_att = yaml.safe_load(yaml_serialized_att)
 
-			self.assertEqual(data, yaml_att)
-			self.assertEqual(type(data), type(yaml_att))
-		except Exception as e:
-			self.fail(e)
+            self.assertEqual(data, yaml_att)
+            self.assertEqual(type(data), type(yaml_att))
+        except Exception as e:
+            self.fail(e)
 
 if __name__ == "__main__":
-	unittest.main()
+    unittest.main()
